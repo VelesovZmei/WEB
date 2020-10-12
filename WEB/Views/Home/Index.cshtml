@@ -1,0 +1,33 @@
+﻿@using WEB.Extensions
+@{
+    ViewData["Title"] = "Home Page";
+    var mynews = ViewData["ListofNew"] as List<Models.New>;
+}
+
+<div class="container">
+    @*TODO: smaller mainhead, change style for head*@
+    <h1 class="display-2">WEBNews</h1>
+    @if (mynews?.Count > 0)
+    {
+        foreach (var item in mynews)
+        {
+            <div class="d-flex flex-column mb-5">
+
+                <div class="d-flex flex-row">
+                    <div class="col-10">
+                        <a asp-controller="News" asp-action="Details" asp-route-id="@item.Id">
+                            @Html.Raw(item.Head)
+                        </a>
+                    </div>
+                    <div class="col-2">
+                        @DateTimeOffset.FromUnixTimeSeconds(item.DatePosted).Date.ToString("dd-MM-yy")
+                    </div>
+                </div>
+                <div class="mb-2">
+                    @Html.Raw(item.Text.TrimText(1500, 1000))
+                </div>
+            </div>
+            <hr />
+        }
+    }
+</div>

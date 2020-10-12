@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Models.Comment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.New)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WebUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Moderation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Date)*@
+                @DateTimeOffset.FromUnixTimeSeconds(item.Date).Date.ToString("dd-MM-yy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.New.Head)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Moderation)
+            </td>
+            <td>
+                @if (!item.Moderation)
+                {<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <span> |</span> } 
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
